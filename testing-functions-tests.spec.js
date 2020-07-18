@@ -4,7 +4,7 @@ import { verifyCell } from "./testing-functions.js"
 //so the test should cause a fail if the number of living neighbours is less than two and the function returns a live cell
 //the testing input should be 1
 
-describe("cell", () => {
+describe("live cell", () => {
     it("has 1 neighbour, it dies", () => {
         const result = verifyCell("1");
         expect(result).toBe(false);
@@ -23,6 +23,13 @@ describe("cell", () => {
     })
     it("has 2 live neighbours, it survives this generation", () => {
         const result = verifyCell(2);
+        expect(result).toBe(true);
+    })
+})
+
+describe("dead cell", () => {
+    it("is dead with 2 neighbours, it stays dead", () => {
+        const result = verifyCell(false, 2);
         expect(result).toBe(true);
     })
 })
