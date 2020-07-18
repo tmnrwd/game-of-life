@@ -13,4 +13,8 @@ describe("cell", () => {
         const result = verifyCell(2);
         expect(result).toBe(true);
     })
+    it("has 3 neighbours, it passes", () => {
+        const result = verifyCell(3);
+        expect(result).toBe(true);
+    })
 })
