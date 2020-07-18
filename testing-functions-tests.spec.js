@@ -5,7 +5,7 @@ import { verifyCell } from "./testing-functions.js"
 //the testing input should be 1
 
 describe("cell", () => {
-    it("has 1 neighbour, it lives", () => {
+    it("has 1 neighbour, it dies", () => {
         const result = verifyCell("1");
         expect(result).toBe(false);
     })
@@ -18,7 +18,11 @@ describe("cell", () => {
         expect(result).toBe(true);
     })
     it("has 4 neighbours, it dies", () => {
-        const result = verifyCell(3);
+        const result = verifyCell(4);
         expect(result).toBe(false);
+    })
+    it("has 2 live neighbours, it survives this generation", () => {
+        const result = verifyCell(2);
+        expect(result).toBe(true);
     })
 })
