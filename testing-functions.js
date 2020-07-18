@@ -1,5 +1,5 @@
 function verifyCell(neighbours){
-  if (neighbours == 2) {
+  if (neighbours >= 2) {
     return true;
   } else {return false;}
 }
