@@ -5,16 +5,20 @@ import { verifyCell } from "./testing-functions.js"
 //the testing input should be 1
 
 describe("cell", () => {
-    it("has 1 neighbour, it fails", () => {
+    it("has 1 neighbour, it lives", () => {
         const result = verifyCell("1");
         expect(result).toBe(false);
     })
-    it("has 2 neighbours, it passes", () => {
+    it("has 2 neighbours, it lives", () => {
         const result = verifyCell(2);
         expect(result).toBe(true);
     })
-    it("has 3 neighbours, it passes", () => {
+    it("has 3 neighbours, it lives", () => {
         const result = verifyCell(3);
         expect(result).toBe(true);
+    })
+    it("has 4 neighbours, it dies", () => {
+        const result = verifyCell(3);
+        expect(result).toBe(false);
     })
 })
