@@ -29,7 +29,11 @@ describe("live cell", () => {
 
 describe("dead cell", () => {
     it("is dead with 2 neighbours, it stays dead", () => {
-        const result = verifyCell(false, 2);
+        const result = verifyCell(2, false);
         expect(result).toBe(true);
+    })
+    it("is dead with 3 neighbours, it comes alive", () => {
+        const result = verifyCell(3, false);
+        expect(result).toBe(false);
     })
 })
