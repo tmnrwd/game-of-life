@@ -33,7 +33,7 @@ describe("dead cell", () => {
         expect(result).toBe(true);
     })
     it("is dead with 4 neighbours, it stays dead", () => {
-        const result = verifyCell(3, false);
-        expect(result).toBe(true);
+        const result = verifyCell(4, false);
+        expect(result).toBe(false);
     })
 })
