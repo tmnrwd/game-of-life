@@ -1,13 +1,14 @@
 //5 by 5 grid of cells, so 25
 
 class Cell {
-    constructor(ID, neighbours, livingNeighbours, alive) {
+    constructor(ID, neighbours, livingNeighbours, alive, aliveNext) {
         this._ID = ID;
         this._noOfNeighbours = neighbours;
         this._livingNeighbours = livingNeighbours
         this._alive = alive;
         this._linkedCells = {};
         this._neighbours = {};
+        this._aliveNext = aliveNext;
     }
 
     get ID() {
@@ -26,20 +27,12 @@ class Cell {
         return this._linkedCells;
     }
 
-    set alive(value) {
-        this._alive = value;
+    get aliveNext() {
+        return this._aliveNext;
     }
 
-    move(direction) {
-        navErrorHide();
-        if (direction in this._linkedRooms) {
-            return this._linkedRooms[direction];
-        }
-        else {
-            navError();
-            setTimeout(navErrorHide, 1000);
-            return this;
-        }
+    set alive(value) {
+        this._alive = value;
     }
 
     backToZeroList() {
@@ -73,36 +66,37 @@ class Cell {
 }
 
 //list of cells here
-const Zero = new Cell(0, 0, 0, false)
-const One = new Cell(1, 3, 0, true);
-const Two = new Cell(2, 5, 0, true);
-const Three = new Cell(3, 5, 0, false);
-const Four = new Cell(4, 5, 0, true);
-const Five = new Cell(5, 3, 0, true);
+const Zero = new Cell(0, 0, 0, false, false);
 
-const Six = new Cell(6, 5, 0, false);
-const Seven = new Cell(7, 8, 0, false);
-const Eight = new Cell(8, 8, 0, true);
-const Nine = new Cell(9, 8, 0, true);
-const Ten = new Cell(10, 5, 0, false);
+const One = new Cell(1, 3, 0, false, false);
+const Two = new Cell(2, 5, 0, true, false);
+const Three = new Cell(3, 5, 0, false, false);
+const Four = new Cell(4, 5, 0, true, false);
+const Five = new Cell(5, 3, 0, true, false);
 
-const Eleven = new Cell(11, 5, 0, false);
-const Twelve = new Cell(12, 8, 0, true);
-const Thirteen = new Cell(13, 8, 0, false);
-const Fourteen = new Cell(14, 8, 0, true);
-const Fifteen = new Cell(15, 5, 0, false);
+const Six = new Cell(6, 5, 0, false, false);
+const Seven = new Cell(7, 8, 0, false, false);
+const Eight = new Cell(8, 8, 0, true, false);
+const Nine = new Cell(9, 8, 0, true, false);
+const Ten = new Cell(10, 5, 0, false, false);
 
-const Sixteen = new Cell(16, 5, 0, false);
-const Seventeen = new Cell(17, 8, 0, true);
-const Eighteen = new Cell(18, 8, 0, true);
-const Nineteen = new Cell(19, 8, 0, true);
-const Twenty = new Cell(20, 5, 0, false);
+const Eleven = new Cell(11, 5, 0, false, false);
+const Twelve = new Cell(12, 8, 0, true, false);
+const Thirteen = new Cell(13, 8, 0, false, false);
+const Fourteen = new Cell(14, 8, 0, true, false);
+const Fifteen = new Cell(15, 5, 0, false, false);
 
-const TwentyOne = new Cell(21, 3, 0, true);
-const TwentyTwo = new Cell(22, 5, 0, false);
-const TwentyThree = new Cell(23, 5, 0, true);
-const TwentyFour = new Cell(24, 5, 0, false);
-const TwentyFive = new Cell(25, 3, 0, false);
+const Sixteen = new Cell(16, 5, 0, false, false);
+const Seventeen = new Cell(17, 8, 0, true, false);
+const Eighteen = new Cell(18, 8, 0, true, false);
+const Nineteen = new Cell(19, 8, 0, true, false);
+const Twenty = new Cell(20, 5, 0, false, false);
+
+const TwentyOne = new Cell(21, 3, 0, true, false);
+const TwentyTwo = new Cell(22, 5, 0, false, false);
+const TwentyThree = new Cell(23, 5, 0, true, false);
+const TwentyFour = new Cell(24, 5, 0, false, false);
+const TwentyFive = new Cell(25, 3, 0, false, false);
 
 //linking cells
 Zero.linkCell(1, One)
@@ -136,8 +130,8 @@ Zero.linkCell(24, TwentyFour)
 Zero.linkCell(25, TwentyFive)
 
 One.linkCell(2, Two)
+One.linkCell(6, Six)
 One.linkCell(7, Seven)
-One.linkCell(11, Eleven)
 
 Two.linkCell(1, One)
 Two.linkCell(3, Three)
@@ -163,7 +157,7 @@ Five.linkCell(10, Ten)
 
 Six.linkCell(1, One)
 Six.linkCell(2, Two)
-Six.linkCell(7, Three)
+Six.linkCell(7, Seven)
 Six.linkCell(11, Eleven)
 Six.linkCell(12, Twelve)
 
@@ -259,9 +253,9 @@ Eighteen.linkCell(13, Thirteen)
 Eighteen.linkCell(14, Fourteen)
 Eighteen.linkCell(17, Seventeen)
 Eighteen.linkCell(19, Nineteen)
-Eighteen.linkCell(20, Twenty)
-Eighteen.linkCell(21, TwentyOne)
 Eighteen.linkCell(22, TwentyTwo)
+Eighteen.linkCell(23, TwentyThree)
+Eighteen.linkCell(24, TwentyFour)
 
 Nineteen.linkCell(13, Thirteen)
 Nineteen.linkCell(14, Fourteen)
@@ -304,6 +298,10 @@ TwentyFive.linkCell(19, Nineteen)
 TwentyFive.linkCell(20, Twenty)
 TwentyFive.linkCell(24, TwentyFour)
 
+cellsArray = [One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten,
+Eleven, Twelve, Thirteen, Fourteen, Fifteen, Sixteen, Seventeen, Eighteen, Nineteen, 
+Twenty, TwentyOne, TwentyTwo, TwentyThree, TwentyFour, TwentyFive]
+
 arrayOfIDs = [];
 livingNeighbours = [];
 
@@ -316,8 +314,11 @@ function verifyLife(neighbours, alive) {
 }
 
 function runGame() {
+    document.getElementById("runGame").disabled=true;
     deadOrAlive();
     updateGrid();
+    setTimeout(function(){ document.getElementById("runGame").disabled=false; }, 500);
+    
 }
 
 function deadOrAlive() {
@@ -326,9 +327,14 @@ function deadOrAlive() {
         currentCell = Zero._linkedCells[i3];
         alive = currentCell.alive();
         neighbours = numberLivingNeighbours(currentCell);
-        currentCell._alive = verifyLife(neighbours, alive);
-        alive = currentCell.alive();
+        currentCell._aliveNext = verifyLife(neighbours, alive);
         livingNeighbours = [];
+        i3++
+    }
+    i3 = 1;
+    while (i3 < 25) {
+        currentCell = Zero._linkedCells[i3];
+        currentCell._alive = currentCell._aliveNext
         i3++
     }
 }
@@ -336,16 +342,17 @@ function deadOrAlive() {
 function numberLivingNeighbours(currentCell) {
     i = 0;
     livingNeighbours = [];
-    while (i < currentCell._noOfNeighbours) {
-        arrayOfIDs = Object.keys(currentCell._linkedCells)
-        neighbourBeingTested = arrayOfIDs[i];
+    arrayOfIDs = Object.keys(currentCell._linkedCells)  //set array to linked cells
+    while (i < currentCell._noOfNeighbours) {       //while i less than number of neighbours
+        neighbourBeingTested = arrayOfIDs[i];       //neighbour being tested is ith entry in array
         neighbourBeingTestedObject = currentCell._linkedCells[neighbourBeingTested];
-        if (neighbourBeingTestedObject.alive()) {
-            livingNeighbours.push(neighbourBeingTested)
+        //get object for that neighbour
+        if (neighbourBeingTestedObject.alive()) {   //if it's alive
+            livingNeighbours.push(neighbourBeingTested) //add that neighbour's ID to livingNeighbours
         }
-        i += 1
+        i += 1  //i + 1
     }
-    return (livingNeighbours.length);
+    return (livingNeighbours.length);       //return length of livingNeighbours
 }
 
 function updateGrid() {
@@ -354,16 +361,32 @@ function updateGrid() {
         currentCell = Zero;
         currentCellIterate = currentCell._linkedCells[i];
         currentCellIterateStringID = String([i]);
-        if (currentCellIterate.alive()) {
+        if (currentCellIterate._alive) {
             document.getElementById(currentCellIterateStringID).style.backgroundColor = "green";
         }
-        else if (currentCellIterate.alive() === false) {
+        else if (currentCellIterate._alive === false) {
             document.getElementById(currentCellIterateStringID).style.backgroundColor = "black";
         }
         i += 1
     }
 }
+/*
+function testFunction() {
+    i = 2;    
+        currentCell = Zero;
+        currentCellIterate = currentCell._linkedCells[i];
+        currentCellIterateStringID = String([i]);
+        console.log("Cell number: ", currentCellIterate._ID);
+        console.log("Cell alive?", currentCellIterate._alive);
+        console.log("Cell gonna be alive?", currentCellIterate._aliveNext);
+        if (currentCellIterate.aliveNext) {
+            currentCellIterate._alive = true;
+        } else { currentCellIterate._alive === false; }
+        console.log("Cell alive?", currentCellIterate._alive);
+}
 
+testFunction();
+*/
 function toggleLife(currentCell) {
     if (currentCell._alive === true) {
         currentCell._alive = false;
